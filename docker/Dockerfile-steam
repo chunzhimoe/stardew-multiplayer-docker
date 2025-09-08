@@ -57,8 +57,8 @@ RUN wget --user-agent="Mozilla" https://github.com/Pathoschild/SMAPI/releases/do
     /bin/bash -c "SMAPI_NO_TERMINAL=true SMAPI_USE_CURRENT_SHELL=true echo -e '2\n\n' | \"$SMAPI_INSTALLER\" --install --game-path \"$GAME_PATH\"" || :
 
 # Add Mods & Scripts
-COPY ["mods/", "$GAME_PATH/Mods/"]
-COPY scripts/ /opt/
+COPY ["stardew-multiplayer-docker/docker/mods/", "$GAME_PATH/Mods/"]
+COPY stardew-multiplayer-docker/docker/scripts/ /opt/
 
 RUN chmod +x $GAME_PATH/StardewValley && \
     chmod -R 777 $GAME_PATH && \
@@ -66,10 +66,10 @@ RUN chmod +x $GAME_PATH/StardewValley && \
     chmod +x /opt/*.sh
 
 RUN mkdir /etc/services.d/utils && touch /etc/services.d/app/utils.dep
-COPY run /etc/services.d/utils/run 
+COPY stardew-multiplayer-docker/docker/run /etc/services.d/utils/run 
 RUN chmod +x /etc/services.d/utils/run 
 
-COPY start.sh $GAME_PATH/start.sh
+COPY stardew-multiplayer-docker/docker/start.sh $GAME_PATH/start.sh
 RUN chmod +x $GAME_PATH/start.sh
-COPY docker-entrypoint-steam.sh /startapp.sh
+COPY stardew-multiplayer-docker/docker/docker-entrypoint-steam.sh /startapp.sh
 RUN chmod +x /startapp.sh
