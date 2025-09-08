@@ -56,7 +56,6 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v6
-        if: ${{ matrix.target.name == 'gog' || (secrets.STEAM_USER != '' && secrets.STEAM_PASS != '') }}
         with:
           context: .
           file: ${{ matrix.target.dockerfile }}
@@ -64,11 +63,6 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            STEAM_USER=${{ secrets.STEAM_USER }}
-            STEAM_PASS=${{ secrets.STEAM_PASS }}
-            STEAM_GUARD=${{ secrets.STEAM_GUARD }}
-            SRCDS_APPID=413150
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
